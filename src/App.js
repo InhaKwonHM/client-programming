@@ -1,3 +1,4 @@
+import FooterPage from "./components/FooterPage";
 import Menubar from "./components/Menubar";
 
 function App() {
@@ -5,6 +6,7 @@ function App() {
     <div>
       <img src='./hom2.jpg' width='100%'/>
       <Menubar />
+      <FooterPage />
     </div>
   );
 }
