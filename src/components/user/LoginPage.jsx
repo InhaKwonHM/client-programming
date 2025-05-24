@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
 import { Button, Card, Col, Form, Row } from 'react-bootstrap'
+import { app } from '../../firebase'
 
 const LoginPage = () => {
+    const auth = getAuth(app); // Firebase 인증
     const basename = process.env.PUBLIC_URL;
 
     const [form, setForm] = useState({
@@ -27,6 +29,13 @@ const LoginPage = () => {
             alert('이메일 or 패스워드를 입력하세요!')
         } else {
             // 로그인 체크
+            signInWithEmailAndPassword(auth, email, pass)
+            .then(success => {
+                alert('로그인 성공')
+            })
+            .catch(error=>{
+                alert('로그인 에러')
+            })
         }
     }
 
