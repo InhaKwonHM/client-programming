@@ -1,19 +1,25 @@
+import React from 'react'
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+import NavDropdown from 'react-bootstrap/NavDropdown';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-import NavDropdown from 'react-bootstrap/NavDropdown';
-import React from 'react'
 import MainRouter from './MainRouter';
 import { useLocation } from 'react-router-dom';
 
 const Menubar = () => {
+
     const location = useLocation();
     const {pathname} = location;
+    console.log(pathname);
+    const basename = process.env.PUBLIC_URL;
+
     return (
         <>
-            <Navbar expand="lg" bg="primary" data-bs-theme="dark">
+            <Navbar expand="lg" bg="dark" data-bs-theme="dark">
                 <Container fluid>
-                    <Navbar.Brand href="#">REACT</Navbar.Brand>
+                    <Navbar.Brand href= {`${basename}/`}>REACT</Navbar.Brand>
                     <Navbar.Toggle aria-controls="navbarScroll" />
                     <Navbar.Collapse id="navbarScroll">
                         <Nav
@@ -21,18 +27,20 @@ const Menubar = () => {
                             style={{ maxHeight: '100px' }}
                             navbarScroll
                         >
-                            <Nav.Link href="/" active={pathname==='/'}>Home</Nav.Link>
-                            <Nav.Link href="/cart" active={pathname==='/cart'}>장바구니</Nav.Link>
+                            <Nav.Link href= {`${basename}/`} active={pathname === '/' && true}>Home</Nav.Link>
+                            <Nav.Link href= {`${basename}/cart`} active={pathname === '/cart' && true}>장바구니</Nav.Link>
                         </Nav>
                         <Nav>
-                            <Nav.Link href="/login" active={pathname==='/login'}>로그인</Nav.Link>
+                            <Nav.Link href= {`${basename}/login`} active={pathname === '/login' && true}>로그인</Nav.Link>
+
                         </Nav>
+
                     </Navbar.Collapse>
                 </Container>
             </Navbar>
             <MainRouter />
         </>
-    )
+    );
 }
 
 export default Menubar
