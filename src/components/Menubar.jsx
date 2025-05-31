@@ -34,13 +34,14 @@ const Menubar = () => {
                     <Navbar.Collapse id="navbarScroll">
                         <Nav
                             className="me-auto my-2 my-lg-0"
-                            style={{ maxHeight: '100px' }}
+                            style={{ maxHeight: '100%' }}
                             navbarScroll
                         >
                             <Nav.Link href= {`${basename}/`} active={pathname === '/' && true}>Home</Nav.Link>
                             {email &&
                                 <Nav.Link href= {`${basename}/cart`} active={pathname === '/cart' && true}>장바구니</Nav.Link>
                             }
+                            <Nav.Link href={`${basename}/post`} active={pathname.startsWith('/post') }>게시판</Nav.Link>
                         </Nav>
                         <Nav>
                             {email ?

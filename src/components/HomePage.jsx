@@ -4,13 +4,13 @@ import { Button, Card, CardBody, Col, Form, InputGroup, Row } from 'react-bootst
 import BookPage from './BookPage';
 import { BsCart2 } from "react-icons/bs";
 import { app } from '../firebase'
-import { getDatabase, ref, set, get } from 'firebase/database'
+import { getDatabase, ref, set, get, onValue, remove } from 'firebase/database'
 import { useNavigate } from 'react-router-dom';
 import moment from 'moment';
-
+import { FaRegHeart, FaHeart } from "react-icons/fa";
 
 const HomePage = () => {
-
+    const [heart,setHeart] = useState([]);
     const db = getDatabase(app);
     const [loading, setLoading] = useState(false);
     const uid = sessionStorage.getItem('uid');
@@ -73,6 +73,40 @@ const HomePage = () => {
         }
     }
 
+    // 빈하트 클릭함수
+    const onClickRegHeart = (book) => {
+        if(uid) {
+            set(ref(db, `heart/${uid}/${book.isbn}`),book);
+            alert('좋아요 추가 완료')
+
+            //좋아요 등록
+            //좋아요 등록되어있으면 등록삭제
+        } else {
+            navi('/login');
+        }
+    }
+    const checkHeart = () => {
+        setLoading(true);
+        onValue(ref(db, `heart/${uid}`), snapshot=>{
+            const rows=[];
+            snapshot.forEach(row => {
+                rows.push(row.val().isbn);
+            });
+            setHeart(rows)
+            setLoading(false);
+        })
+
+    }
+    // 현재 이메일의 좋아요 목록
+
+     const onClickHeart = (book) => {
+        remove(ref(db, `heart/${uid}/${book.isbn}`));
+        alert('좋아요 취소');
+     }
+    useEffect(() => {
+        checkHeart()
+    },[])
+
     if(loading) return <h1 className='text-center my-5'>로딩중......</h1>
 
     return (
@@ -96,10 +130,17 @@ const HomePage = () => {
 
             <Row>
                 {documents.map(doc =>
-                    <Col lg={2} md={3} xs={6} className='mb-2'>
+                    <Col lg={2} md={3} xs={6} className='mb-2' key={doc.isbn}>
                         <Card>
                             <Card.Body>
                                 <BookPage book = {doc}/>
+                                <div className='heart text-end'>
+                                    {heart.includes(doc.isbn) ? 
+                                        <FaHeart onClick={()=>onClickHeart(doc)}/>
+                                        :
+                                        <FaRegHeart onClick={()=>onClickRegHeart(doc)}/>
+                                    }
+                                </div>
                             </Card.Body>
                             <Card.Footer>
                                 <div className='text-truncate'>{doc.title}</div>
