@@ -48,7 +48,7 @@ const ListPage = () => {
     },
     [page])
 
-    if(loading) return <h1 className='text-center my-5'>로딩중......ㅌ`</h1>
+    if(loading) return <h1 className='text-center my-5'>로딩중......</h1>
 
     return (
         <div>
@@ -69,7 +69,12 @@ const ListPage = () => {
                     {posts.map(post=>
                         <tr key={post.no}>
                             <td>{post.no}</td>
-                            <td>{post.title}</td>
+                            <td
+                                onClick={() => navi(`/post/${post.id}`)} 
+                                style={{ cursor: 'pointer' }} 
+                            >
+                                <a href={`${process.env.PUBLIC_URL}/post/${post.id}`}>{post.title}</a>
+                            </td>
                             <td>{post.email}</td>
                             <td>{post.date}</td>
                         </tr>
