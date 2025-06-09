@@ -17,7 +17,6 @@ const CartPage = () => {
             snapshot.forEach(row=>{
                 rows.push({key:row.key, ...row.val()})
             })
-            //console.log(rows);
             setBooks(rows);
             setLoading(false);
         });

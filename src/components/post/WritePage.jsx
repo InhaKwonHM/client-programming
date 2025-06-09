@@ -27,7 +27,6 @@ const WritePage = () => {
     const onSubmit = (e) => {
         e.preventDefault();
         if(title==='' || body ==='') {
-            console.log('test')
             alert(`${!title&&!body?'제목 과 내용':(!title?'제목':'내용')}을 입력하세요!`);
         } else {
             const date = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
