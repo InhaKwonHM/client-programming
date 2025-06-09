@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
-import { Button, Col, Form, Row } from 'react-bootstrap';
+import { Button, Col, Row } from 'react-bootstrap';
 import TextareaAutosize  from 'react-textarea-autosize';
 import { app } from '../../firebase';
 import { getFirestore,addDoc, collection } from 'firebase/firestore'
 import moment from 'moment/moment';
 import ReplyList from './ReplyList';
+import { useNavigate } from 'react-router-dom';
 
 
 
@@ -12,6 +13,7 @@ const ReplyPage = ({id}) => {
     const db = getFirestore(app);
     const email = sessionStorage.getItem('email');
     const [content, setContent] = useState('');
+    const navi = useNavigate();
     
     const onWrite = async () => {
         const reply = {
@@ -22,6 +24,11 @@ const ReplyPage = ({id}) => {
         }
         await addDoc(collection(db,'reply'), reply)
         setContent('')
+    }
+
+    const onClickLogin = () => {
+        sessionStorage.setItem('target', '/post/'+id);
+        navi('/login');
     }
     
 
@@ -42,7 +49,7 @@ const ReplyPage = ({id}) => {
                 </Row>
                 :
                 <div>
-                    <Button className='w-100 my-3'>로그인</Button>
+                    <Button className='w-100 my-3' onClick={onClickLogin}>로그인</Button>
                 </div>
             }
             <ReplyList pid={id}/>
